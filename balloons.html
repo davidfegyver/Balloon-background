@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+   </head>
+   <body>
+
+      <canvas id="balloonCanvas"></canvas>
+      <script type="text/javascript" src="./asd/rough.js"></script>
+      <script type="text/javascript">
+        const balloonCanvas = document.getElementById("balloonCanvas");
+        const ctx = balloonCanvas.getContext("2d")
+        balloonCanvas.width = window.innerWidth;
+        balloonCanvas.height = window.innerHeight;
+        let balloons = [];
+
+
+        function parseColor(colorObj) {
+            return `hsla(${colorObj.h},${colorObj.s}%, ${colorObj.l}%,${colorObj.a})`
+        }
+
+        const colors = [
+        {        
+            h: 20,
+            s: 100,
+            l: 50,
+            a:1
+        }, 
+        {
+            h: 200,
+            s:100,
+            l: 50,
+            a: 1
+        },{
+            h: 300,
+            s:100,
+            l: 50,
+            a:1
+        },
+        {
+            h: 100,
+            s:100,
+            l: 40,
+            a:1
+        }
+    ]
+
+    function animationLoop() {
+        r = rough.canvas(balloonCanvas);
+        ctx.clearRect(0, 0, balloonCanvas.width, balloonCanvas.height)
+        
+        balloons.map(function(balloon, index) {
+            balloon.pos.y -= balloon.speed
+            balloon.pos.x = index % 2 ? balloon.pos.x + .2 * Math.sin(balloon.angle) : balloon.pos.x - .2 * Math.cos(balloon.angle)
+            balloon.angle += .01
+            r.circle(balloon.pos.x, balloon.pos.y, balloon.radius, {
+                fill: parseColor(balloon.color),
+                roughness: 1.5 * Math.random(),
+                hachureGap: balloon.hachureGap,
+                hachureAngle: balloon.hachureAngle
+            })
+            r.line(balloon.pos.x, balloon.pos.y + 1.2 * balloon.radius, balloon.pos.x, balloon.pos.y + balloon.radius / 2, {
+                bowing: 3 * Math.random()
+            })
+            balloon.pos.y + 3 * balloon.radius < 0 && (balloon.pos.y = balloonCanvas.height + 3 * balloon.radius, balloon.pos.x = Math.random() * (balloonCanvas.width - balloon.radius))
+            })
+    
+    }
+
+
+    for (let i = 50; i--;) balloons.push({
+        pos: {
+            x: Math.random() * balloonCanvas.width,
+            y: Math.random() * balloonCanvas.height
+        },
+        vel: {x: 0,y: 0},
+        speed: Math.random() + .2,
+        angle: 0,
+        radius: 60 * Math.random() + 20,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        hachureAngle: 90 * Math.random(),
+        hachureGap: 8 * Math.random() + 1,
+    });
+
+    window.setInterval(animationLoop, 50);
+
+
+</script>
+
+
+   </body>
+</html>
+
