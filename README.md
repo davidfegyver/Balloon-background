@@ -3,8 +3,8 @@
 This is a simple HTML+JS canvas with a lot of **moving balloons** 
 
 ## :bulb: Run
-You can try it out [HERE]()
-If you downloaded, simply open index.html.
+You can try it out [HERE](http://htmlpreview.github.io/?https://github.com/davidfegyver/Balloon-background/blob/main/balloons.html)
+If you downloaded, simply open balloons.html.
 ## Images 
 
 TODO
